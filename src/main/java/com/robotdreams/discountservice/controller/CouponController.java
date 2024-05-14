@@ -29,6 +29,7 @@ public class CouponController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CouponResponseDto> findById(@PathVariable long id) {
 
         Optional<CouponResponseDto> coupon = couponService.findById(id);
@@ -39,6 +40,7 @@ public class CouponController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteById(@PathVariable long id) {
 
         return couponService.deleteByID(id)
@@ -47,6 +49,7 @@ public class CouponController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> save(@RequestBody CouponRequestDto couponRequestDto)
             throws URISyntaxException {
 
@@ -56,6 +59,7 @@ public class CouponController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> update(@PathVariable long id, CouponRequestDto couponRequestDto) {
 
         Optional<CouponResponseDto> coupon =
