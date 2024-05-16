@@ -1,10 +1,11 @@
 package com.robotdreams.discountservice.dto;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 public record CouponResponseDto(String id, long productId, String description,
                                 BigDecimal amount, String couponCode,
-                                Date createDate, Date updateDate) {
+                                Date createDate, Date updateDate, Date expirationDate) {
 
 }

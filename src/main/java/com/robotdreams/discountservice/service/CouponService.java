@@ -9,6 +9,7 @@ import com.robotdreams.discountservice.service.mapper.CouponMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,28 +39,26 @@ public class CouponService {
 
     public Optional<CouponResponseDto> update(long couponId, CouponRequestDto couponRequestDto) {
 
-        // such a coupon does not exist
-        if (!couponRepository.existsById(couponId))
-            return Optional.empty();
+        var couponToUpdate = couponRepository.findByIdAndExpirationDateAfter(couponId, new Date());
 
-        Coupon coupon = couponMapper.updateCoupon(new Coupon(), couponRequestDto);
-        coupon.setId(couponId);
-
-        couponRepository.save(coupon);
-
-        return Optional.of(couponMapper.couponToCouponResponseDto(coupon));
+        if (couponToUpdate.isPresent()) {
+            Coupon coupon = couponToUpdate.get();
+            couponMapper.updateCoupon(coupon, couponRequestDto);
+            couponRepository.save(coupon);
+            return Optional.of(couponMapper.couponToCouponResponseDto(coupon));
+        }
+        return Optional.empty();
     }
 
     public Optional<CouponResponseDto> findById(long couponId) {
 
-        Optional<Coupon> coupon = couponRepository.findById(couponId);
+        Optional<Coupon> coupon = couponRepository.findByIdAndExpirationDateAfter(couponId, new Date());
         return coupon.map(couponMapper::couponToCouponResponseDto);
     }
 
     public List<CouponResponseDto> findAll() {
 
-        return couponRepository.findAll().stream()
+        return couponRepository.findAllByExpirationDateAfter(new Date()).stream()
                 .map(couponMapper::couponToCouponResponseDto).toList();
     }
-
 }

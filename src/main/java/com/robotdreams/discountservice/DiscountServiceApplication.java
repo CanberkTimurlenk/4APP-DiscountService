@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SpringBootApplication
-@EnableMongoRepositories(basePackages = "com.robotdreams.discountservice.repository")
 public class DiscountServiceApplication {
 
 

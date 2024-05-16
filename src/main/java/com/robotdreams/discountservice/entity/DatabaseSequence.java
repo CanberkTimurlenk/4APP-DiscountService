@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 @Getter
 @Setter
 public class DatabaseSequence {
+
     @Id
     private String id;
 
