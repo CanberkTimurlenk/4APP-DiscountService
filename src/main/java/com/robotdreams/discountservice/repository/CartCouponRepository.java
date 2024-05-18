@@ -1,5 +1,6 @@
 package com.robotdreams.discountservice.repository;
 
+import com.robotdreams.discountservice.entity.CartCoupon;
 import com.robotdreams.discountservice.entity.Coupon;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.ListCrudRepository;
@@ -9,10 +10,10 @@ import java.util.Date;
 import java.util.Optional;
 
 @Repository
-public interface CouponRepository extends MongoRepository<Coupon, Long> {
+public interface CartCouponRepository extends MongoRepository<CartCoupon, Long> {
 
-    Optional<Coupon> findAllByExpirationDateAfter(Date date);
+    Optional<CartCoupon> findAllByExpirationDateAfter(Date date);
 
-    Optional<Coupon> findByIdAndExpirationDateAfter(Long id, Date date);
+    Optional<CartCoupon> findByIdAndExpirationDateAfter(Long id, Date date);
 
 }

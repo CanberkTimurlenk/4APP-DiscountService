@@ -1,6 +1,6 @@
 package com.robotdreams.discountservice.filter;
 
-import com.robotdreams.discountservice.service.JwtService;
+import com.robotdreams.discountservice.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +31,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
 
-    private final JwtService jwtService;
-
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -49,7 +47,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         try {
             final String jwt = authHeader.substring(7);
-            final String userEmail = jwtService.extractUsername(jwt);
+            final String userEmail = JwtUtil.extractUsername(jwt);
 
             if (userEmail != null) {
                 setAuthenticationContext(jwt, request);
@@ -57,7 +55,7 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -76,7 +74,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private UserDetails getUserDetails(String token) {
 
         User userDetails = new User();
-        Claims claims = jwtService.extractAllClaims(token);
+        Claims claims = JwtUtil.extractAllClaims(token);
 
         // email
         String subject = (String) claims.get(Claims.SUBJECT);
@@ -88,5 +86,12 @@ public class JwtFilter extends OncePerRequestFilter {
         userDetails.setRoles(new HashSet<>(List.of(roleNames)));
 
         return userDetails;
+    }
+
+    private void sendErrorResponse(HttpServletResponse response, int status, String message) throws IOException {
+        response.setStatus(status);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write("{\"error\": \"" + message + "\"}");
     }
 }

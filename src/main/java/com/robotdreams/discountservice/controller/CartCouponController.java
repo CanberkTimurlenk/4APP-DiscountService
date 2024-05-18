@@ -1,10 +1,8 @@
 package com.robotdreams.discountservice.controller;
 
-import com.robotdreams.discountservice.dto.CouponRequestDto;
-import com.robotdreams.discountservice.dto.CouponResponseDto;
-import com.robotdreams.discountservice.service.CouponService;
-import com.robotdreams.discountservice.service.JwtService;
-import jakarta.annotation.security.PermitAll;
+import com.robotdreams.discountservice.dto.CartCouponRequestDto;
+import com.robotdreams.discountservice.dto.CartCouponResponseDto;
+import com.robotdreams.discountservice.service.CartCouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,22 +15,22 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/coupons")
-public class CouponController {
+@RequestMapping("/cart-coupons")
+public class CartCouponController {
 
-    private final CouponService couponService;
+    private final CartCouponService cartCouponService;
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<CouponResponseDto>> findAll() {
-        return ResponseEntity.ok(couponService.findAll());
+    public ResponseEntity<List<CartCouponResponseDto>> findAll() {
+        return ResponseEntity.ok(cartCouponService.findAll());
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<CouponResponseDto> findById(@PathVariable long id) {
+    public ResponseEntity<CartCouponResponseDto> findById(@PathVariable long id) {
 
-        Optional<CouponResponseDto> coupon = couponService.findById(id);
+        Optional<CartCouponResponseDto> coupon = cartCouponService.findById(id);
 
         return coupon.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -43,27 +41,27 @@ public class CouponController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteById(@PathVariable long id) {
 
-        return couponService.deleteByID(id)
+        return cartCouponService.deleteByID(id)
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.notFound().build();
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> save(@RequestBody CouponRequestDto couponRequestDto)
+    public ResponseEntity<Void> save(@RequestBody CartCouponRequestDto couponRequestDto)
             throws URISyntaxException {
 
-        long id = couponService.save(couponRequestDto);
+        long id = cartCouponService.save(couponRequestDto);
 
         return ResponseEntity.created(new URI("/coupons" + id)).build();
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> update(@PathVariable long id, CouponRequestDto couponRequestDto) {
+    public ResponseEntity<Void> update(@PathVariable long id, CartCouponRequestDto couponRequestDto) {
 
-        Optional<CouponResponseDto> coupon =
-                couponService.update(id, couponRequestDto);
+        Optional<CartCouponResponseDto> coupon =
+                cartCouponService.update(id, couponRequestDto);
 
         return coupon.isPresent()
                 ? ResponseEntity.noContent().build()
