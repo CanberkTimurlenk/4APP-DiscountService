@@ -15,7 +15,7 @@ public interface ProductCouponMapper {
 
     ProductCoupon productCouponRequestDtoToProductCoupon(ProductCouponRequestDto productCouponRequestDto);
 
-    ProductCouponResponseDto productCouponToProductCouponResponseDto(Coupon coupon);
+    ProductCouponResponseDto productCouponToProductCouponResponseDto(ProductCoupon productCoupon);
 
     ProductCoupon updateProductCoupon(@MappingTarget ProductCoupon productCoupon, ProductCouponRequestDto dto);
 

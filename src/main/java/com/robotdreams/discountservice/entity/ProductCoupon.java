@@ -15,4 +15,5 @@ public class ProductCoupon extends Coupon implements Serializable {
     @Transient
     public static final String SEQUENCE_NAME = "product_coupon_sequence";
 
+    private long productId;
 }

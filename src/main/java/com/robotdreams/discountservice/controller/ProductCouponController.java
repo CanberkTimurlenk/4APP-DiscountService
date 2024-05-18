@@ -58,7 +58,7 @@ public class ProductCouponController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> update(@PathVariable long id, ProductCouponRequestDto couponRequestDto) {
+    public ResponseEntity<Void> update(@PathVariable long id, @RequestBody ProductCouponRequestDto couponRequestDto) {
 
         Optional<ProductCouponResponseDto> coupon =
                 productCouponService.update(id, couponRequestDto);

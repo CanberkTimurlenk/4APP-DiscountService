@@ -7,12 +7,13 @@ import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface CartCouponRepository extends MongoRepository<CartCoupon, Long> {
 
-    Optional<CartCoupon> findAllByExpirationDateAfter(Date date);
+    List<CartCoupon> findAllByExpirationDateAfter(Date date);
 
     Optional<CartCoupon> findByIdAndExpirationDateAfter(Long id, Date date);
 

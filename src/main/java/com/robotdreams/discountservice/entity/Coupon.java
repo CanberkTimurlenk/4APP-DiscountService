@@ -1,5 +1,6 @@
 package com.robotdreams.discountservice.entity;
 
+import com.robotdreams.discountservice.exceptionHandling.BusinessException;
 import com.robotdreams.discountservice.exceptionHandling.InvalidAmountException;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,10 +30,6 @@ public abstract class Coupon {
     private String couponCode;
     private Date expirationDate;
 
-    public boolean isValid() {
-        return !expirationDate.before(new Date());
-    }
-
     public void setAmount(BigDecimal amount) throws InvalidAmountException {
 
         if (amount.compareTo(new BigDecimal("100")) > 0
@@ -41,5 +38,13 @@ public abstract class Coupon {
             throw new InvalidAmountException("Invalid amount was entered. The amount must be interval in % 0-100");
         }
         this.amount = amount;
+    }
+
+    public void setExpirationDate(Date date)
+    {
+        if(date.before(new Date()))
+            throw new BusinessException("The expiration date must be later than present");
+
+        this.expirationDate = date;
     }
 }

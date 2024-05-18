@@ -17,7 +17,7 @@ public class DiscountServiceApplication {
         Map<String, Object> claims = new HashMap<>();
         claims.put("ROLES", "ROLE_ADMIN");
 
-        JwtUtil.generateToken(claims, "denemeName");
+        System.out.println(JwtUtil.generateToken(claims, "denemeName"));
 
     }
 
