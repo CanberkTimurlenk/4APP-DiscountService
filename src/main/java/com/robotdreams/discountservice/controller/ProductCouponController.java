@@ -5,7 +5,6 @@ import com.robotdreams.discountservice.dto.ProductCouponResponseDto;
 import com.robotdreams.discountservice.service.ProductCouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -21,13 +20,11 @@ public class ProductCouponController {
     private final ProductCouponService productCouponService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<ProductCouponResponseDto>> findAll() {
         return ResponseEntity.ok(productCouponService.findAll());
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProductCouponResponseDto> findById(@PathVariable long id) {
 
         Optional<ProductCouponResponseDto> coupon = productCouponService.findById(id);
@@ -38,7 +35,6 @@ public class ProductCouponController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteById(@PathVariable long id) {
 
         return productCouponService.deleteByID(id)
@@ -47,7 +43,6 @@ public class ProductCouponController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> save(@RequestBody ProductCouponRequestDto couponRequestDto)
             throws URISyntaxException {
 
@@ -57,7 +52,6 @@ public class ProductCouponController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> update(@PathVariable long id, @RequestBody ProductCouponRequestDto couponRequestDto) {
 
         Optional<ProductCouponResponseDto> coupon =

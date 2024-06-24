@@ -1,4 +1,4 @@
-package com.robotdreams.discountservice.exceptionHandling;
+package com.robotdreams.discountservice.exception;
 
 public class BusinessException extends RuntimeException {
     public BusinessException(String message, Throwable cause) {

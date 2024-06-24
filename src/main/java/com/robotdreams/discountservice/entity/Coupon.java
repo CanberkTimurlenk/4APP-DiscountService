@@ -1,7 +1,7 @@
 package com.robotdreams.discountservice.entity;
 
-import com.robotdreams.discountservice.exceptionHandling.BusinessException;
-import com.robotdreams.discountservice.exceptionHandling.InvalidAmountException;
+import com.robotdreams.discountservice.exception.BusinessException;
+import com.robotdreams.discountservice.exception.InvalidAmountException;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;

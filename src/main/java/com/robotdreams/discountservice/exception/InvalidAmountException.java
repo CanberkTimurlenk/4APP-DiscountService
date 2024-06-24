@@ -1,4 +1,4 @@
-package com.robotdreams.discountservice.exceptionHandling;
+package com.robotdreams.discountservice.exception;
 
 public class InvalidAmountException extends BusinessException{
     public InvalidAmountException(String message, Throwable cause) {
