@@ -19,20 +19,24 @@ services:
         condition: service_healthy
 
   discountservice-mongodb:
-    image: mongo:latest
+    image: mongo:4.4.28
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: Ab123456
-      MONGO_INITDB_DATABASE: DiscountService
+      MONGO_INITDB_DATABASE: admin
+      MONGO_INITDB_PORT: 27017
     ports:
       - "27018:27017"
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
     healthcheck:
-      test: [ "CMD","mongosh", "--eval", "db.adminCommand('ping')" ]
+      test: ["CMD-SHELL", "mongo --eval 'db.runCommand(\"ping\").ok' --username root --password Ab123456 --authenticationDatabase admin --quiet"]
       interval: 5s
       timeout: 5s
       retries: 3
       start_period: 5s
+      
   mongo-express:
     image: mongo-express
     restart: always
